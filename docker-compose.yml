@@ -1,0 +1,64 @@
+version: '2.1'
+services:
+  postgres:
+    image: postgres:16.4
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: slideshow-db
+    networks:
+      - app-network
+# Uncomment to start app in docker
+#  app:
+#    build: .
+#    depends_on:
+#      - postgres
+#      - kafka
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/slideshow-db
+#      SPRING_DATASOURCE_USERNAME: username
+#      SPRING_DATASOURCE_PASSWORD: password
+#      KAFKA_BROKER_URL: kafka:9092
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - app-network
+
+  kafka:
+    image: confluentinc/cp-kafka:7.3.1
+    restart: always
+    mem_limit: 1024m
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+#      Uncomment to start up application fully in docker and comment 39 line
+#      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - KAFKA_BROKER_ID=1
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    depends_on:
+      - zookeeper
+    networks:
+      - app-network
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.1
+    restart: always
+    mem_limit: 512m
+    ports:
+      - "2181:2181"
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+    driver: local

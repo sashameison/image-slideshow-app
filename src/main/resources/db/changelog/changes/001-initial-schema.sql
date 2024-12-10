@@ -1,0 +1,46 @@
+CREATE SEQUENCE slideshow_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE SEQUENCE image_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE SEQUENCE proof_of_play_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+CREATE TABLE IF NOT EXISTS slideshows
+(
+    id BIGINT PRIMARY KEY DEFAULT NEXTVAL('slideshow_id_seq'),
+    title VARCHAR(256) NOT NULL ,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+CREATE TABLE IF NOT EXISTS images
+(
+    id BIGINT PRIMARY KEY DEFAULT NEXTVAL('image_id_seq'),
+    url VARCHAR(1024) NOT NULL ,
+    duration NUMERIC NOT NULL ,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    slideshow_id BIGINT REFERENCES slideshows(id) ON DELETE SET NULL
+);
+
+CREATE TABLE proof_of_play (
+    id BIGINT PRIMARY KEY DEFAULT NEXTVAL('proof_of_play_id_seq'),
+    slideshow_id BIGINT NOT NULL,
+    image_id BIGINT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (slideshow_id) REFERENCES slideshows(id) ON DELETE CASCADE,
+    FOREIGN KEY (image_id) REFERENCES images(id) ON DELETE CASCADE
+);
