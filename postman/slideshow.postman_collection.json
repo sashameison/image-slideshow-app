@@ -1,0 +1,190 @@
+{
+	"info": {
+		"_postman_id": "2fa9b507-0223-41b0-8933-5df72846f876",
+		"name": "slideshow",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13687835"
+	},
+	"item": [
+		{
+			"name": "save image",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\" : \"https://static.vecteezy.com/system/resources/thumbnails/036/324/708/small_2x/ai-generated-picture-of-a-tiger-walking-in-the-forest-photo.jpg\",\n    \"duration\" : 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/images",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"images"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/images/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"images",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search images",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/images/search?url=picture",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"images",
+						"search"
+					],
+					"query": [
+						{
+							"key": "url",
+							"value": "picture"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create slideshow",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"My slideshow\",\n    \"slideshowImagesIds\" : [1]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/slideshows",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"slideshows"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get slideshow order",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/slideshows/1/slideshowOrder",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"slideshows",
+						"1",
+						"slideshowOrder"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "track play",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/proof-of-play/slideshow/1/proof-of-play/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"proof-of-play",
+						"slideshow",
+						"1",
+						"proof-of-play",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete slideshow by id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/slideshows/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"slideshows",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
