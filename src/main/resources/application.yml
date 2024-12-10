@@ -1,0 +1,55 @@
+spring:
+  application:
+  name: slideshow-app
+
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/slideshow-db
+    username: username
+    password: password
+
+  jpa:
+    properties.hibernate:
+      jdbc:
+        batch_size: 500
+      order_inserts: true
+    hibernate.ddl-auto: validate
+    open-in-view: false
+
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKER_URL:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: slideshow_consumer_group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      enable-auto-commit: true
+      auto-commit-interval: 5000ms
+      max-poll-records: ${KAFKA_MAX_POLL_RECORDS:500}
+      properties:
+        max-poll-interval-ms: ${KAFKA_MAX_POLL_INTERVAL_MS:300000}
+        spring:
+          deserializer:
+            key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+            value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+          json:
+            trusted.packages: '*'
+topics:
+  create-topic-name: image-create
+  delete-topic-name: image-delete
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    root: INFO
+
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    page: /swagger-ui.html
+    enabled: true
